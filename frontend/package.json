@@ -1,0 +1,29 @@
+{
+  "name": "web-repl",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "next": "^10.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.25.0",
+    "react": "^16.0.0",
+    "react-beforeunload": "^2.5.1",
+    "react-dom": "^16.0.0",
+    "react-notifications": "^1.7.2",
+    "react-simple-code-editor": "^0.11.0",
+    "react-use-websocket": "^2.7.1"
+  },
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2"
+  }
+}
