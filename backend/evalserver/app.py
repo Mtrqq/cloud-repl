@@ -1,9 +1,9 @@
 import asyncio
+import logging
 import traceback
 from functools import partial
 from typing import TYPE_CHECKING
 from typing import Any
-import logging
 
 import pydantic
 import websockets
@@ -106,7 +106,7 @@ async def handler(ws: "WebSocketServerProtocol", _: Any) -> None:
             logger.exception("Execution failed for client - %s", ws.id)
 
 
-async def main() -> None:
+async def serve_forever() -> None:
     async with websockets.serve(  # type: ignore
         handler,
         "0.0.0.0",  # noqa: S104
@@ -116,5 +116,9 @@ async def main() -> None:
         await asyncio.Future()
 
 
+def main() -> None:
+    asyncio.run(serve_forever())
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

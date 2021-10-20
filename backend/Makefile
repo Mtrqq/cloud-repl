@@ -36,7 +36,7 @@ sync-version:
 	@poetry version -s | xargs -I % sed -i 's#".\+"#"%"#g' evalserver/version.py
 
 start:
-	@poetry run python ./evalserver/main.py
+	@poetry run python ./evalserver/app.py
 
 run:
-	@poetry run python ./evalserver/main.py
+	@poetry run python ./evalserver/app.py

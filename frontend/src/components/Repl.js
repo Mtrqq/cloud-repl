@@ -6,14 +6,12 @@ import {
   DialogContent,
   DialogActions,
   CircularProgress,
-  Draggable,
-  Paper,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { highlight } from "prismjs";
 import Editor from "react-simple-code-editor";
 import config from "../config";
@@ -86,6 +84,10 @@ const createMessageDispatcher = (setExecution) => {
   };
 };
 
+function getSocketUrlForLang(lang) {
+  return `ws://${window.location.hostname}/api/${lang}`;
+}
+
 function Repl() {
   const [state, setState] = useState({
     code: "",
@@ -94,8 +96,15 @@ function Repl() {
   });
   const [execution, setExecution] = useState(emptyExecution);
 
-  const socketUrl = `${config.api.url}/${state.lang}`;
-  const { sendJsonMessage } = useWebSocket(socketUrl, {
+  const getSocketUrl = useCallback(() => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(getSocketUrlForLang(state.lang));
+      }, 2000);
+    });
+  }, [state.lang]);
+
+  const { sendJsonMessage } = useWebSocket(getSocketUrl, {
     onOpen: (event) => {
       console.log("Connected to ", event.currentTarget.url);
       setState((prevState) => {

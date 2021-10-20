@@ -5,14 +5,14 @@ from .evaluator import Evaluator
 from .evaluator import make_evaluator
 from .stage import Stage
 
-PYTHON = [Stage("running", "python -u ${fcode}", "code.py")]
-RUST = [
-    Stage("compiling", "rustc ${fcode} -C opt-level=3 -o ${dir}/exec", "code.rst"),
-    Stage("running", "${dir}/exec"),
-]
-
-
-DISPATCHER: Dict[str, List[Stage]] = {"python": PYTHON, "rust": RUST}
+DISPATCHER: Dict[str, List[Stage]] = {
+    "python": [Stage("running", "python -u ${fcode}", "code.py")],
+    "rust": [
+        Stage("compiling", "rustc ${fcode} -C opt-level=3 -o ${dir}/exec", "code.rst"),
+        Stage("running", "${dir}/exec"),
+    ],
+    "nodejs": [Stage("running", "node ${fcode}", "code.js")],
+}
 
 
 def get_evaluator(lang: str) -> Evaluator:

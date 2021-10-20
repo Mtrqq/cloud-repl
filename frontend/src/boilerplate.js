@@ -12,6 +12,9 @@ fn main() {
     println!("Hello World!");
 }
 `,
+  nodejs: `
+console.log("Hello World!")
+`,
 };
 
 export default boilerplate;

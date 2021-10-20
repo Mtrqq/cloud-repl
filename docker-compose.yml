@@ -1,0 +1,51 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "traefik:v2.5"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  python-api:
+    image: "mtrqq/repl-backend:0.0.4-python"
+    container_name: repl-python-api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.repl-python-api.loadbalancer.server.port=80"
+      - "traefik.http.routers.repl-python-api.rule=Path(`/api/python`)"
+      - "traefik.http.routers.repl-python-api.entrypoints=web"
+
+  rust-api:
+    image: "mtrqq/repl-backend:0.0.7-rust"
+    container_name: repl-rust-api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.repl-rust-api.loadbalancer.server.port=80"
+      - "traefik.http.routers.repl-rust-api.rule=Path(`/api/rust`)"
+      - "traefik.http.routers.repl-rust-api.entrypoints=web"
+
+  nodejs-api:
+    image: "mtrqq/repl-backend:0.0.1-nodejs"
+    container_name: repl-nodejs-api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.repl-nodejs-api.loadbalancer.server.port=80"
+      - "traefik.http.routers.repl-nodejs-api.rule=Path(`/api/nodejs`)"
+      - "traefik.http.routers.repl-nodejs-api.entrypoints=web"
+
+  frontend:
+    image: "mtrqq/repl-frontend:0.0.5"
+    container_name: repl-frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.repl-frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.repl-frontend.entrypoints=web"

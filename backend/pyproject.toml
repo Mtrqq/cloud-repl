@@ -4,6 +4,9 @@ version = "0.1.0"
 description = ""
 authors = ["Mtrqq <maxym.fugol@gmail.com>"]
 
+[tool.poetry.scripts]
+evalserver = "evalserver.app:main"
+
 [tool.poetry.dependencies]
 python = "^3.7"
 websockets = "^10.0"

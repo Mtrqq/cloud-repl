@@ -1,18 +1,17 @@
 import asyncio
+import logging
 import os
 import shlex
+import shutil
 import tempfile
 import uuid
 from asyncio.streams import StreamReader
 from typing import Any
 from typing import Callable
 from typing import Coroutine
-import logging
 from typing import List
 from typing import Tuple
 from typing import cast
-
-from evalserver.aio import wait_or_default
 
 from .stage import Stage
 
@@ -56,6 +55,7 @@ async def execute_stage(
     )
 
     try:
+        program = shutil.which(program)
         process = await asyncio.create_subprocess_exec(
             program,
             *args,
