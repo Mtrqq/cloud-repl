@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: repl-python-api
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: repl-python-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repl-python-api
+spec:
+  selector:
+    matchLabels:
+      app: repl-python-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: repl-python-api
+    spec:
+      containers:
+        - name: repl-python-api
+          image: mtrqq/repl-backend:0.0.4-python
+          ports:
+            - containerPort: 80

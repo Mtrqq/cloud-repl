@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: repl-nodejs-api
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: repl-nodejs-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repl-nodejs-api
+spec:
+  selector:
+    matchLabels:
+      app: repl-nodejs-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: repl-nodejs-api
+    spec:
+      containers:
+        - name: repl-nodejs-api
+          image: mtrqq/repl-backend:0.0.1-nodejs
+          ports:
+            - containerPort: 80

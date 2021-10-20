@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: nginx-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: repl-frontend
+                port:
+                  number: 80
+          - path: /api/python
+            pathType: Exact
+            backend:
+              service:
+                name: repl-python-api
+                port:
+                  number: 80
+          - path: /api/rust
+            pathType: Exact
+            backend:
+              service:
+                name: repl-rust-api
+                port:
+                  number: 80
+          - path: /api/nodejs
+            pathType: Exact
+            backend:
+              service:
+                name: repl-nodejs-api
+                port:
+                  number: 80
