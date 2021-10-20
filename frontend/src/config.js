@@ -7,8 +7,6 @@ import boilerplate from "./boilerplate";
 
 const config = {
   api: {
-    url: process.env.API_URL || "ws://0.0.0.0:8025",
-    token: process.env.API_TOKEN || "MOCK",
     reconnect: {
       interval: 5000,
       attempts: 100,
