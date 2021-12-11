@@ -40,7 +40,6 @@ def _format_stage_name(name: str, num: int, max: int) -> str:
 
 
 async def execute_code(code: str, endpoint: str) -> None:
-    print(endpoint)
     async with websockets.connect(endpoint) as ws:  # type: ignore
         await msg.send(ws, msg.StartExecutionRequest(code=code))
         stages_count = await _receive_stages_count(ws)
