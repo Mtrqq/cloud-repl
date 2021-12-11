@@ -1,0 +1,127 @@
+[tool.poetry]
+name = "crepl"
+version = "0.1.0"
+description = ""
+authors = ["Mtrqq <maxym.fugol@gmail.com>"]
+
+[tool.poetry.scripts]
+evalserver = "crepl.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pydantic = "^1.8.2"
+websockets = "^10.1"
+tqdm = "^4.62.3"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.13.0"
+isort = "^5.8.0"
+mypy = "^0.902"
+flake8-black = "^0.2.1"
+flake8-isort = "^4.0.0"
+flake8-annotations-complexity = "^0.0.6"
+flake8-annotations-coverage = "^0.0.5"
+flake8-annotations = "^2.6.2"
+flake8-colors = "^0.1.9"
+flakehell = "^0.7.0"
+flake8 = "3.9.0"
+flake8-bandit = "^2.1.2"
+flake8-broken-line = "^0.3.0"
+flake8-bugbear = "^21.4.3"
+flake8-comprehensions = "^3.6.1"
+flake8-debugger = "^4.0.0"
+flake8-eradicate = "^1.1.0"
+flake8-rst-docstrings = "^0.2.3"
+mccabe = "^0.6.1"
+pep8-naming = "^0.11.1"
+pycodestyle = "^2.7.0"
+pyflakes = "^2.3.1"
+
+
+[tool.flakehell]
+exclude = [".venv", "venv", ".tox", "dist", "build"]
+inline-quotes = "double"
+max_line_length = 88
+show_source = true
+
+[tool.flakehell.plugins]
+flake8-bandit = ["+*"]
+flake8-broken-line = ["+*"]
+flake8-bugbear = [
+    "+*",
+    "-B008", # A lot of function definitions would contain function call in default parameters (FastAPI)
+]
+flake8-comprehensions = ["+*"]
+flake8-debugger = ["+*"]
+flake8-eradicate = ["+*"]
+flake8-annotations-complexity = ["+*"]
+flake8-annotations-coverage = ["+*"]
+flake8-annotations = ["+*"]
+flake8-black = ["+*"]
+flake8-isort = ["+*"]
+flake8-rst-docstrings = ["+*"]
+mccabe = ["+*"]
+pep8-naming = ["+*"]
+pycodestyle = [
+    "+*",
+    "-W503", # Allow for line breaks where Black decides are valid
+    "-E501", # Allow for long lines since we delegate to Black for enforcement
+]
+pyflakes = [
+    "+*",
+    "-F405", # Allow using things from star imports if they are required
+]
+
+[tool.flakehell.exceptions."tests/"]
+flake8-annotations = ["-ANN*"] # Type annotations are optional for tests
+flake8-annotations-coverage = [
+    "-TAE001",
+] # Type annotations are optional for tests
+flake8-bandit = ["-S101"] # Don't warn on use of asserts in tests
+flake8-pytest = ["+*"]
+
+[tool.darglint]
+strictness = "long"
+docstring_style = "numpy"
+
+[tool.mypy]
+follow_imports = "silent"
+warn_return_any = false
+ignore_missing_imports = true
+exclude = 'venv|\.env|\.venv|\.tox|dist|build'
+
+[tool.isort]
+profile = "black"
+default_section = "THIRDPARTY"
+sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+known_first_party = "evalserver"
+force_single_line = true
+atomic = true
+balanced_wrapping = true
+include_trailing_comma = true
+combine_as_imports = true
+use_parentheses = true
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
