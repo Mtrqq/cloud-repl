@@ -8,7 +8,7 @@ import pydantic
 
 from crepl.settings import settings
 
-EXT_MAPPING = {".py": "python", ".rst": "rust", ".js": "nodejs"}
+EXT_MAPPING = {".py": "python", ".rs": "rust", ".js": "nodejs"}
 
 
 class Arguments(pydantic.BaseModel):
