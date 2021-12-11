@@ -14,10 +14,10 @@ T = TypeVar("T", bound=BaseModel)
 
 class MessageModel(BaseModel):
     @property
-    def type(self) -> str:
+    def type(self: "MessageModel") -> str:
         return self.__class__.__name__
 
-    def dict(self, *args, **kwargs) -> Dict[str, Any]:
+    def dict(self: "MessageModel", *args: Any, **kwargs: Any) -> Dict[str, Any]:
         base_dict = super().dict(*args, **kwargs)
         return {**base_dict, "type": self.type}
 

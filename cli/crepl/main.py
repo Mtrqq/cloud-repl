@@ -1,8 +1,8 @@
 import asyncio
 
+from crepl.api import get_endpoint_for_lang
 from crepl.cli import cmdline_arguments
 from crepl.execute import execute_code
-from crepl.api import get_endpoint_for_lang
 
 
 def main() -> None:

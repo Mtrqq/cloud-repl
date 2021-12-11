@@ -1,7 +1,6 @@
-import pydantic
-
 from typing import Tuple
 
+import pydantic
 
 _DEFAULT_LANGUAGES = ("python", "rust", "nodejs")
 

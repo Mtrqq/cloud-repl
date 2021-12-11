@@ -1,11 +1,12 @@
 import argparse
 import os
-from typing import Any, Dict, Optional
+from typing import Any
+from typing import Dict
+from typing import Optional
 
 import pydantic
 
 from crepl.settings import settings
-
 
 EXT_MAPPING = {".py": "python", ".rst": "rust", ".js": "nodejs"}
 
@@ -17,7 +18,7 @@ class Arguments(pydantic.BaseModel):
 
     @pydantic.validator("language", pre=True)
     def validate_language(
-        cls: "Arguments", value: Optional[str], values: Dict[str, Any]
+        cls: "Arguments", value: Optional[str], values: Dict[str, Any]  # noqa: N805
     ) -> str:
         if value is not None:
             return value
