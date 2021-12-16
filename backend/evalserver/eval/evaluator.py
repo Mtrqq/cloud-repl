@@ -55,9 +55,12 @@ async def execute_stage(
     )
 
     try:
-        program = shutil.which(program)
+        executable_path = shutil.which(program)
+        if executable_path is None:
+            raise RuntimeError(f"Unable to find {program} executable")
+
         process = await asyncio.create_subprocess_exec(
-            program,
+            executable_path,
             *args,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.STDOUT,

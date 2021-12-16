@@ -65,19 +65,19 @@ async def handler(ws: "WebSocketServerProtocol", _: Any) -> None:
             code: str = (await msg.recv_as(ws, msg.StartExecutionRequest)).code
             logger.debug("Got code %s from %s", code, ws.id)
             await msg.send(
-                ws, msg.ExecutionStartedResponse(stages=stages_count(settings.LANG))
+                ws, msg.ExecutionStartedResponse(stages=stages_count(settings.lang))
             )
-            execution_task = asyncio.Task(
-                evaluate(
-                    lang=settings.LANG,
-                    code=code,
-                    on_start=partial(on_stage_start, ws=ws),
-                    on_finished=partial(on_stage_finish, ws=ws),
-                    on_output=partial(on_output_ready, ws=ws),
-                )
+            execution_task = evaluate(
+                lang=settings.lang,
+                code=code,
+                on_start=partial(on_stage_start, ws=ws),
+                on_finished=partial(on_stage_finish, ws=ws),
+                on_output=partial(on_output_ready, ws=ws),
             )
             logger.info("Evaluation started")
-            succeeded, exit_code = await execution_task
+            succeeded, exit_code = await asyncio.wait_for(
+                execution_task, timeout=settings.timeout
+            )
             logger.info(
                 "Evaluation finished with status - %s",
                 "success" if succeeded else "failure",
@@ -96,6 +96,12 @@ async def handler(ws: "WebSocketServerProtocol", _: Any) -> None:
                 ),
             )
             logger.exception("Validation failed for client - %s", ws.id)
+        except asyncio.TimeoutError:
+            await msg.send(
+                ws,
+                msg.ExecutionFailedResponse(detail="Request timed out", traceback=""),
+            )
+            logger.error("Request timed out after %s seconds", settings.timeout)
         except Exception:
             await msg.send(
                 ws,
@@ -109,8 +115,8 @@ async def handler(ws: "WebSocketServerProtocol", _: Any) -> None:
 async def serve_forever() -> None:
     async with websockets.serve(  # type: ignore
         handler,
-        "0.0.0.0",  # noqa: S104
-        settings.PORT,
+        settings.host,
+        settings.port,
         compression=None,
     ):
         await asyncio.Future()

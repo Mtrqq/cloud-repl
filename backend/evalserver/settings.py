@@ -1,10 +1,15 @@
+from pydantic import BaseConfig
 from pydantic import BaseSettings
-from pydantic.fields import Field
 
 
 class AppSettings(BaseSettings):
-    LANG: str = Field(..., env="EVAL_LANGUAGE")
-    PORT: str = Field(80, env="EVAL_SERVER_PORT")
+    lang: str
+    host: str = "0.0.0.0"  # noqa: S104
+    port: int = 80
+    timeout: int = 60
+
+    class Config(BaseConfig):
+        env_prefix = "EVAL_SERVER_"
 
 
 settings = AppSettings()

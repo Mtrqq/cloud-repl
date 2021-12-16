@@ -16,7 +16,9 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   python-api:
-    image: "mtrqq/repl-backend:0.0.4-python"
+    build: 
+      context: ./backend/docker
+      dockerfile: python.dockerfile
     container_name: repl-python-api
     labels:
       - "traefik.enable=true"
@@ -25,7 +27,9 @@ services:
       - "traefik.http.routers.repl-python-api.entrypoints=web"
 
   rust-api:
-    image: "mtrqq/repl-backend:0.0.7-rust"
+    build: 
+      context: ./backend/docker
+      dockerfile: rust.dockerfile
     container_name: repl-rust-api
     labels:
       - "traefik.enable=true"
@@ -34,7 +38,9 @@ services:
       - "traefik.http.routers.repl-rust-api.entrypoints=web"
 
   nodejs-api:
-    image: "mtrqq/repl-backend:0.0.1-nodejs"
+    build: 
+      context: ./backend/docker
+      dockerfile: nodejs.dockerfile
     container_name: repl-nodejs-api
     labels:
       - "traefik.enable=true"
@@ -43,7 +49,7 @@ services:
       - "traefik.http.routers.repl-nodejs-api.entrypoints=web"
 
   frontend:
-    image: "mtrqq/repl-frontend:0.0.5"
+    build: ./frontend
     container_name: repl-frontend
     labels:
       - "traefik.enable=true"
