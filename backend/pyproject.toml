@@ -11,6 +11,7 @@ evalserver = "evalserver.app:main"
 python = "^3.7"
 websockets = "^10.0"
 pydantic = "^1.8.2"
+requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

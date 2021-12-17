@@ -22,7 +22,7 @@ def get_evaluator(lang: str) -> Evaluator:
         raise RuntimeError(f"Language {lang} is not registered for evaluation")
 
 
-def stages_count(lang: str) -> int:
+def get_stages_count(lang: str) -> int:
     try:
         return len(DISPATCHER[lang.lower()])
     except KeyError:

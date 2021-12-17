@@ -1,4 +1,4 @@
-FROM mtrqq/repl-backend:0.0.5-base
+FROM mtrqq/repl-backend:0.1.4-base
 
 RUN apt update && apt install rustc -y
 

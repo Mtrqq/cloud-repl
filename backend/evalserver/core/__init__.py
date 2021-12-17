@@ -1,6 +1,6 @@
 __all__ = [
     "evaluate",
-    "stages_count",
+    "get_stages_count",
     "StageStartedCallback",
     "StageFinishedCallback",
     "StdoutUpdateCallback",
@@ -9,7 +9,7 @@ __all__ = [
 from typing import Tuple
 
 from .dispatcher import get_evaluator
-from .dispatcher import stages_count
+from .dispatcher import get_stages_count
 from .evaluator import StageFinishedCallback
 from .evaluator import StageStartedCallback
 from .evaluator import StdoutUpdateCallback
