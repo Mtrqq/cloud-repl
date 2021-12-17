@@ -25,6 +25,33 @@ spec:
     spec:
       containers:
         - name: repl-nodejs-api
-          image: mtrqq/repl-backend:0.0.1-nodejs
+          image: mtrqq/repl-backend:0.1.0-nodejs
+          env:
+            - name: RLIMITER_BASE_URL
+              value: http://rlimiter
           ports:
             - containerPort: 80
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: repl-nodejs-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: repl-nodejs-api
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
