@@ -57,15 +57,17 @@ spec:
     spec:
       containers:
         - name: rlimiter
-          image: mtrqq/rlimiter:0.1.0
+          image: mtrqq/repl-rlimiter:0.1.0
           env:
             - name: RLIMITER_REDIS_HOST
               value: rlimiter-redis-kv
             - name: RLIMITER_REDIS_PORT
-              value: 6379
+              value: "6379"
             - name: RLIMITER_LIMIT
-              value: 10
+              value: "10"
             - name: RLIMITER_PERIOD
               value: minute
+            - name: RLIMITER_PORT
+              value: "80"
           ports:
             - containerPort: 80
